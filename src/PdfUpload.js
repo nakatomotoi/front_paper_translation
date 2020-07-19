@@ -73,7 +73,7 @@ export default class PdfUpload extends React.Component {
                         />
                     </Document>
                     {loadSuccess ? <TextContainer>{translationSuccess ?
-                        <TranslatedText>text</TranslatedText>
+                        <TranslatedText>{text}</TranslatedText>
                         : <ErrorText>翻訳時にエラーが起きました</ErrorText>
                     }
                     </TextContainer> : null}
