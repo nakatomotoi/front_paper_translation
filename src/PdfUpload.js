@@ -53,7 +53,7 @@ export default class PdfUpload extends React.Component {
         const text = pageData['translated_text'] ? pageData['translated_text'] : '翻訳できませんでした';
 
         return(
-            <div className="component">
+            <DivContainer className="component" >
                 PDFを添付してください:
                 <Button component="label" variant="contained" color="primary">
                     ファイル選択
@@ -64,6 +64,7 @@ export default class PdfUpload extends React.Component {
                         file={base64} style={{border: 'dotted 1px #aaa'}}
                         onLoadSuccess={this.handleDocumentLoad.bind(this)}
                         onLoadError={console.error}
+                        noData={null}
                     >
                         <Page
                             pageNumber={page}
@@ -71,7 +72,11 @@ export default class PdfUpload extends React.Component {
                             renderAnnotationLayer={false}
                         />
                     </Document>
-                    {loadSuccess ? <TextContainer>{translationSuccess ? text : '翻訳時にエラーが起きました'}</TextContainer> : null}
+                    {loadSuccess ? <TextContainer>{translationSuccess ?
+                        <TranslatedText>text</TranslatedText>
+                        : <ErrorText>翻訳時にエラーが起きました</ErrorText>
+                    }
+                    </TextContainer> : null}
                 </Container>
                 {loadSuccess ? (
                     <>
@@ -89,10 +94,14 @@ export default class PdfUpload extends React.Component {
                         >Next</Button>
                     </>
                 ) : null}
-            </div>
+            </DivContainer>
         )
     }
 }
+
+const DivContainer = styled.div`
+  width: 1200px;
+`
 
 const Container = styled.div`
   display: flex;
@@ -100,7 +109,9 @@ const Container = styled.div`
 `;
 
 const TextContainer = styled.div`
-  width: 300px;
+  width: 500px;
+  text-align: left;
+  padding: 10px;
 `
 
 const NameContainer = styled.div`
@@ -111,4 +122,12 @@ const StyledInput = styled.input`
   opacity: 0;
   appearance: none;
   position: absolute;
+`
+
+const TranslatedText = styled.p`
+  font-size: small;
+`
+
+const ErrorText = styled.p`
+  color: red;
 `
